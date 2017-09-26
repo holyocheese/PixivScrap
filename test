@@ -1,0 +1,14 @@
+class Rfm(object):
+    def __init__(self,val):
+        assert isinstance(val,float),"not a float"
+        self.val = round(val,2)
+
+    def __str__(self):
+        #return str(self.val)
+        return '%.2f'%self.val
+
+    __repr__ = __str__
+
+a = Rfm(3.3)
+print a
+
