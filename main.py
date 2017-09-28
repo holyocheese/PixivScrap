@@ -101,7 +101,7 @@ class Pixiv(object):
                         filetype = src.attrs['data-src'].split('.')[-1]
                         url = 'http://www.baidu.com'
                         local = r'd://google.html'
-                        urllib.urlretrieve(url, local, self.cbk)
+                        urllib.urlretrieve(url, local)
                         urllib.urlretrieve(src.attrs['data-src'], os.path.join(path, filename + "." + filetype))
                 except AttributeError as e:
                     print "NOT Found"
@@ -130,17 +130,6 @@ class Pixiv(object):
                     urllib.urlretrieve(src, os.path.join(path, filename + "." + filetype))
                 except:
                     print '\tError retrieving the URL:'
-
-    def cbk(a, b, c):
-        '''回调函数
-        @a: 已经下载的数据块
-        @b: 数据块的大小
-        @c: 远程文件的大小
-        '''
-        per = 100.0 * a * b / c
-        if per > 100:
-            per = 100
-        print '%.2f%%' % per
 
     def main(self):
         self.login()
