@@ -12,6 +12,7 @@ sys.setdefaultencoding('utf-8')
 se = requests.session()
 # 变更工作空间
 os.chdir(r'd:\\cheese python\\pixiv_img')
+path = r'd:\\cheese python\\pixiv_img'
 filename = 'cookie.txt'
 
 class Pixiv(object):
@@ -94,8 +95,14 @@ class Pixiv(object):
                 try:
                     src = bsObj.find("img", {"class": "original-image"})
                     if src:
+                        print filename + "is Downloading"
                         self.down_list.append({"src": src.attrs['data-src'].decode("unicode-escape"),
                                                "title": src.attrs['alt']})
+                        filetype = src.attrs['data-src'].split('.')[-1]
+                        url = 'http://www.baidu.com'
+                        local = r'd://google.html'
+                        urllib.urlretrieve(url, local, self.cbk)
+                        urllib.urlretrieve(src.attrs['data-src'], os.path.join(path, filename + "." + filetype))
                 except AttributeError as e:
                     print "NOT Found"
                 except Exception as e:
@@ -104,17 +111,36 @@ class Pixiv(object):
                 for key in item:
                     print key + ":" + item[key]
 
+            self.download(self.down_list)
             # self.saveimg()
             # 页数+1
             count = count + 1
             # 清空图片连接
             self.img_list = []
 
+    def download(dict, threadnum=1):
+        os.mkdir("geigei")
+        for i in dict:
+            for link in i:
+                src = link['src']
+                filetype = link['src'].split('.')[-1]
+                filename = link['title']
+                try:
+                    print filename + "is Downloading"
+                    urllib.urlretrieve(src, os.path.join(path, filename + "." + filetype))
+                except:
+                    print '\tError retrieving the URL:'
 
-
-
-    def saveimg(self, url):
-        return ""
+    def cbk(a, b, c):
+        '''回调函数
+        @a: 已经下载的数据块
+        @b: 数据块的大小
+        @c: 远程文件的大小
+        '''
+        per = 100.0 * a * b / c
+        if per > 100:
+            per = 100
+        print '%.2f%%' % per
 
     def main(self):
         self.login()
