@@ -280,10 +280,12 @@ class Pixiv(object):
         postkey = bsObj.find('input')['value']
         return postkey
 
-
     def threading(self, threadingcount=0):
         """多线程下载图片"""
         print "threading!"
+        if self.down_list == 0:
+            print "No Img Link"
+            return
         if 5 > threadingcount > 0:
             count = 0
             while count < len(self.down_list):
@@ -297,9 +299,10 @@ class Pixiv(object):
                         print len(threads)
                     else:
                         break
+                # 启用线程
                 for i in nloops:
-                    print
                     threads[i].start()
+                # 线程锁
                 for i in nloops:
                     threads[i].join()
                     # count = count + 3
@@ -346,8 +349,9 @@ if __name__ == "__main__":
     *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *
     """
     # 标记开始时间
+    begintime = ctime()
     print "Scrap starts at " + ctime()
     # 初始化类
     pixiv = Pixiv("0")
     pixiv.main()
-    print "Scrap ends at " + ctime()
+    print "Scrap ends at " + ctime() + "Used Time :" + (ctime() - begintime)
