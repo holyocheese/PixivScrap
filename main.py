@@ -21,8 +21,8 @@ print os.path
 requests.adapters.DEFAULT_RETRIES = 5
 se = requests.session()
 se.keep_alive = False
-#代理服务器
-se.proxies = {"https://"}
+# 代理服务器
+# se.proxies = {"https://"}
 # 变更工作空间
 os.chdir(r'G:\pythonproject\srcrap')
 path = r'G:\pythonproject\srcrap\img'
